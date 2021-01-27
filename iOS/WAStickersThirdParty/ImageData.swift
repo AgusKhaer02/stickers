@@ -153,6 +153,10 @@ class ImageData {
                 throw StickerPackError.animatedImagesNotSupported
             }
 
+            guard imageData.bytesSize > 0 else {
+                throw StickerPackError.imageTooSmall
+            }
+
             guard imageData.bytesSize <= Limits.MaxTrayImageFileSize else {
                 throw StickerPackError.imageTooBig(imageData.bytesSize, false)
             }
@@ -161,6 +165,10 @@ class ImageData {
                 throw StickerPackError.incorrectImageSize(imageData.image!.size)
             }
         } else {
+            guard imageData.bytesSize > 0 else {
+                throw StickerPackError.imageTooSmall
+            }
+
             let isAnimated = imageData.animated
             guard (isAnimated && imageData.bytesSize <= Limits.MaxAnimatedStickerFileSize) ||
                     (!isAnimated && imageData.bytesSize <= Limits.MaxStaticStickerFileSize) else {
